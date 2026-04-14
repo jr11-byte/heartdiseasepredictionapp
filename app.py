@@ -40,7 +40,7 @@ exang = st.selectbox("Exercise Induced Angina", [0, 1])
 oldpeak = st.slider("Oldpeak (ST depression)", 0.0, 6.0, 1.0)
 
 slope = st.selectbox("Slope of Peak Exercise", [0, 1, 2])
-ca = st.selectbox("Number of Major Vessels (CA)", [0, 1, 2, 3, 4])
+ca = st.selectbox("Number of Major Vessels (CA)", [0, 1, 2, 3])
 thal = st.selectbox("Thalassemia", [1, 2, 3])
 
 # -----------------------------
