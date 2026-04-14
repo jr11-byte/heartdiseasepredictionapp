@@ -84,7 +84,7 @@ if st.button("Predict"):
     raw_prob = model.predict_proba(input_scaled)[0][1]
 
     # 🔥 FIX: reduce overconfidence
-    prob = raw_prob * 0.6
+    prob = raw_prob
 
     # -----------------------------
     # DEBUG (IMPORTANT - KEEP TEMP)
@@ -97,10 +97,10 @@ if st.button("Predict"):
     # -----------------------------
     st.subheader("🧾 Result")
 
-    if prob < 0.5:
+    if prob < 0.3:
         st.success(f"💚 Low Risk ({prob*100:.2f}%)")
-    elif prob < 0.75:
-         st.warning(f"🟡 Moderate Risk ({prob*100:.2f}%)")
+    elif prob < 0.7:
+        st.warning(f"🟡 Moderate Risk ({prob*100:.2f}%)")
     else:
         st.error(f"💔 High Risk ({prob*100:.2f}%)")
 
