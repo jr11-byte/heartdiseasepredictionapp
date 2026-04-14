@@ -10,6 +10,9 @@ import joblib
 # -----------------------------
 data = pd.read_csv("heart.csv")
 
+# 🔥 FIX encoding to match real values
+data["thal"] = data["thal"].replace({0:1})
+
 X = data.drop("target", axis=1)
 y = data["target"]
 
