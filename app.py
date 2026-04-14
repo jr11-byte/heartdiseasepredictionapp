@@ -89,7 +89,7 @@ if st.button("Predict"):
 
     if prob < 0.4:
         st.success(f"💚 Low Risk ({prob*100:.2f}%)")
-    elif prob < 0.75:
+    elif prob < 0.85:
         st.warning(f"🟡 Moderate Risk ({prob*100:.2f}%)")
     else:
         st.error(f"💔 High Risk ({prob*100:.2f}%)")
