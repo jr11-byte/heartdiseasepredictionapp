@@ -80,16 +80,16 @@ if st.button("Predict"):
     raw_prob = model.predict_proba(input_scaled)[0][1]
 
     # Smooth probability
-    prob = 1 / (1 + np.exp(-3 * (raw_prob - 0.5)))
+    prob = raw_prob
 
     # -----------------------------
     # Result
     # -----------------------------
     st.subheader("🧾 Result")
 
-    if prob < 0.7:
+    if prob < 0.3:
         st.success(f"💚 Low Risk ({prob*100:.2f}%)")
-    elif prob < 0.85:
+    elif prob < 0.6:
         st.warning(f"🟡 Moderate Risk ({prob*100:.2f}%)")
     else:
         st.error(f"💔 High Risk ({prob*100:.2f}%)")
