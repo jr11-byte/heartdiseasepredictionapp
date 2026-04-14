@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import joblib
 
 # -----------------------------
@@ -16,12 +17,7 @@ st.set_page_config(page_title="Heart Disease Predictor", layout="centered")
 st.title("❤️ Heart Disease Prediction App")
 st.markdown("### 🩺 AI-Powered Heart Risk Assessment")
 
-# -----------------------------
-# Warning
-# -----------------------------
 st.warning("⚠️ This is an AI tool and NOT a medical diagnosis.")
-
-st.write("Enter patient details below:")
 
 # -----------------------------
 # Inputs
@@ -68,7 +64,7 @@ if st.button("Predict"):
         "thal": thal
     }])
 
-    # Ensure correct order
+    # Correct column order
     input_df = input_df[[
         "age","sex","cp","trestbps","chol","fbs",
         "restecg","thalach","exang","oldpeak",
@@ -79,18 +75,12 @@ if st.button("Predict"):
     input_scaled = scaler.transform(input_df)
 
     # -----------------------------
-    # 🔥 Prediction + Calibration
+    # 🔥 Prediction + Sigmoid Calibration
     # -----------------------------
     raw_prob = model.predict_proba(input_scaled)[0][1]
 
-    # 🔥 FIX: reduce overconfidence
-    prob = raw_prob
-
-    # -----------------------------
-    # DEBUG (IMPORTANT - KEEP TEMP)
-    # -----------------------------
-    st.write("RAW Probability:", raw_prob)
-    st.write("Adjusted Probability:", prob)
+    # Smooth probability
+    prob = 1 / (1 + np.exp(-3 * (raw_prob - 0.5)))
 
     # -----------------------------
     # Result
@@ -99,7 +89,7 @@ if st.button("Predict"):
 
     if prob < 0.4:
         st.success(f"💚 Low Risk ({prob*100:.2f}%)")
-    elif prob < 0.8:
+    elif prob < 0.75:
         st.warning(f"🟡 Moderate Risk ({prob*100:.2f}%)")
     else:
         st.error(f"💔 High Risk ({prob*100:.2f}%)")
